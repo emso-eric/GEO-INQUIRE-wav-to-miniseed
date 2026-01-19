@@ -1,0 +1,96 @@
+# Note: Digitizer constants (nbits, ref_voltage, inv_gain, inv_gain_corr, stage2_gain)
+# must be calculated for each system and filled in by the user.
+# Complete StationXML Metadata - PLOCAN Deployment
+# Deployment: 27°45.7741'N 15°41.6940'W, Water depth 18m, Hydrophone depth 17m
+# Equipment: RESON TC4032 S/N 0718007, RTSYS EA.SD14 S/N EA-EA-SDA14_1807003
+# Sample rate: 156250 Hz (downsampled to 300 Hz)
+
+# ============================================
+# BASIC INFORMATION
+# ============================================
+sender=Geo-Enquire Data Converter and Metadata Tool, Silvana Neves, PLOCAN, Spain
+source=GEO-INQUIRE Acoustic Conversion Framework
+
+# ============================================
+# NETWORK INFORMATION
+# ============================================
+network_code=YO
+network_description=GEO-INQUIRE Hydrophone Conversion Campaign
+network_identifier=https://doi.org/10.20366/edb.2073
+
+# ============================================
+# STATION INFORMATION
+# ============================================
+station_code=YO01
+station_description=Hydrophone station at PLOCAN coastal node, 17m below surface (1m above 18m seafloor)
+latitude=27.762902
+longitude=-15.6949
+elevation=-17
+site_name=PLOCAN_coastal_node
+
+# ============================================
+# CHANNEL INFORMATION
+# ============================================
+channel_code=CDH
+location_code=00
+channel_latitude=27.762902
+channel_longitude=-15.6949
+channel_elevation=-17
+channel_depth=17
+water_depth=18
+azimuth=0
+dip=-90
+
+# ============================================
+# SENSOR INFORMATION (RESON TC4032)
+# ============================================
+sensor_description=RESON TC4032 differential mode hydrophone, mounted on mooring line at 17m depth. Bandwidth: 5Hz-62.5kHz. Recording on Ch-A. Sensitivity: -164dBV re 1uPa. Gain factors: 1/Gain = 0.168941669, 1/Gain_corr = 1.001419
+sensor_model=TC4032
+sensor_serial_number=0718007
+sensor_type=Hydrophone
+sensor_manufacturer=Teledyne RESON
+sensor_vendor=Teledyne RESON
+
+# ============================================
+# DATALOGGER INFORMATION (RTSYS)
+# ============================================
+datalogger_model=EA.SD14
+datalogger_serial_number=EA-EA-SDA14_1807003
+datalogger_type=Digital recorder with A/D converter
+datalogger_manufacturer=RTSYS
+datalogger_vendor=RTSYS
+datalogger_description=RTSYS EA.SD14 digital recorder, 24-bit resolution, recording on Ch-A at 156250 Hz (no filter), downsampled to 300 Hz. Gain factors: 1/Gain = 0.168941669, 1/Gain_corr = 1.001419
+datalogger_input_sample_rate=156250
+
+# Digitizer parameters (for converting FLOAT WAV to counts)
+datalogger_nbits=24
+datalogger_ref_voltage=2.5
+datalogger_inv_gain=0.168941669
+datalogger_inv_gain_corr=1.001419
+wav_float_units=normalized
+
+# Stage 2 gain: V -> normalized_unit conversion (for normalized data)
+# Calculated as: 1 / (ref_voltage * inv_gain * inv_gain_corr)
+# Example: 1 / (2.5 * 0.168941669 * 1.001419) = 2.364326
+# This represents how many normalized units per Volt
+datalogger_stage2_gain=2.364326
+
+# ============================================
+# SENSITIVITY INFORMATION
+# WAV FLOAT data is interpreted using wav_float_units:
+# - normalized: float in [-1, 1] mapped to full-scale counts using datalogger_nbits
+# - volts: float in Volts converted using datalogger_ref_voltage
+# - counts: float already in counts
+# ============================================
+# Full system sensitivity (for InstrumentSensitivity in XML)
+# Correct calculation:
+# Hydrophone: 6.31e-3 V/Pa
+# ADC: 3,355,443 counts/V (direct V→count conversion: 2^23 / 2.5)
+# Full system: 6.31e-3 V/Pa × 3,355,443 counts/V = 21,173 counts/Pa
+sensitivity_value=21173
+sensitivity_frequency=20000
+input_units_name=Pa
+output_units_name=count
+
+# Hydrophone-only sensitivity (for Stage 1 in XML - Pa -> V conversion)
+hydrophone_sensitivity_vpa=6.31e-3
